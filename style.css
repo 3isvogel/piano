@@ -1,0 +1,31 @@
+table {
+    /* width: 50%; */
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th,
+td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
+    border-bottom: 2px solid #000;
+    /* Adds a thick bottom border to the header */
+}
+
+tbody tr:hover {
+    background-color: #f9f9f9;
+    /* Optional: highlight row on hover */
+}
+
+.info {
+    margin: 10px;
+}
+
+.todo {
+    color: red;
+}
