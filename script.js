@@ -1,5 +1,6 @@
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 const activeKeys = {}; // To keep track of currently active keys
+const activeSounds = {};
 
 // Map of keys to frequencies
 const keyFrequencyMap = {
@@ -35,7 +36,18 @@ const keyFrequencyMap = {
     'u': 493.88,  // B4
 };
 
-// TODO: implement percussions
+let keySoundMap = {
+    'p': "sounds/kick.ogg",
+    'o': "sounds/snare.ogg",
+    'i': "sounds/crash.ogg",
+};
+
+function playAudio(name) {
+    const audio = new Audio(name);
+    audio.play().catch(error => {
+        console.error("Error playing audio:", error);
+    });
+}
 
 function playPianoKey(frequency) {
     // Create new gain nodes and oscillators for each note
@@ -93,6 +105,24 @@ function stopPianoKey(frequency) {
 // Event listeners for key press
 document.addEventListener('keydown', function (event) {
     const key = event.key.toLowerCase();
+
+    // handle sound keys
+    const sound = keySoundMap[key];
+
+    if (sound && !activeSounds[key]) {
+        activeSounds[key] = true;
+        playAudio(sound)
+        return;
+    }
+    // TODO: add a text field to provide file path, allowing binding key to sound§
+    // TODO: extend functionality to any key, allowing drop-in configuration for all settings (to allow user-specific conf)
+    // ideally, provide a parsed box of test where each eintry is a line in the form of:
+    // <s|k><_sep_><key><_sep_><resource|frequency>
+    //   s: sound -> populate soundNameMap, k: key -> populate keyFrequencyMap
+    //   key: the key to bind
+    //   resource: an URI to the specified resource, frequency: frequency to play
+    //   <sep> still to decide if universal or user-specific, in this case the first line is something like: "sep:<sep>"
+
     const frequency = keyFrequencyMap[key];
 
     // Check if the Shift key is pressed
@@ -115,4 +145,6 @@ document.addEventListener('keyup', function (event) {
 
         stopPianoKey(adjustedFrequency); // Stop the note
     }
+
+    if (activeSounds[key]) activeSounds[key] = null;
 });
