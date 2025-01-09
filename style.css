@@ -17,15 +17,26 @@ th {
     /* Adds a thick bottom border to the header */
 }
 
-tbody tr:hover {
-    background-color: #f9f9f9;
-    /* Optional: highlight row on hover */
-}
-
-.info {
+s .info {
     margin: 10px;
 }
 
 .todo {
     color: red;
+}
+
+.vertical {
+    display: flex;
+    flex-direction: column;
+}
+
+/* .horizontal: Places the elements side by side */
+.horizontal {
+    display: flex;
+    flex-direction: row;
+}
+
+h2,
+h3 {
+    margin: 10px 10px;
 }
