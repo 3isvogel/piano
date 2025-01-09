@@ -5,11 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+
+    <script src="script.js"></script>
+
     <title>Mini keyboard</title>
 </head>
 
 <body>
     <table>
+        <h1>The infos in the table are outdated: I am moving the keys around</h1>
         <thead>
             <tr class="info">
                 <th>Keys</th>
@@ -18,34 +22,64 @@
         </thead>
         <tbody>
             <tr class="info">
-                <th>2-7</th>
-                <th>semitones C4</th>
+                <th>Upper 2 rows of the keyboard</th>
+                <th>High piano keyboard (F -> "q")</th>
             </tr>
             <tr class="info">
-                <th>Q-U</th>
-                <th>scale C4</th>
+                <th>Lower 2 rows of the keyboard</th>
+                <th>Low piano keyboard (F -> "`")</th>
             </tr>
             <tr class="info">
                 <th>S-J</th>
-                <th>semitones C3</th>
+                <th>Lower semitones</th>
             </tr>
             <tr class="info">
-                <th>Z-M</th>
-                <th>scale C3</th>
-            </tr>
-            <tr class="info">
-                <th>Shift</th>
-                <th>raise by 2 octaves (you need an american keyboard layout for the higher semitones to work
-                    correctly)</th>
-            </tr>
-            <tr class="info">
-                <th>P, O, I</th>
-                <th>kick, snare, crash</th>
+                <th>"\", "]", "="</th>
+                <th>kick, snare, crash respectively</th>
             </tr>
         </tbody>
     </table>
-    <p><a href="charts.html" target="_blank">Theory chart</a></p>
-    <script src="script.js"></script>
+    <h2>Register: <span id="shift-register" style="color:green;">↓ Low</span></h2>
+    <div class="horizontal">
+        <h2>Oscillator shape:</h2>
+        <button type="button" label="-" name="harmonic-up" onclick="setHarmonics(-1)">-</button>
+        <button type="button" text="+" name=" harmonic-up" onclick="setHarmonics(+1)">+</button>
+        <h2>harmonics</h2>
+    </div>
+    <div id="oscillator-shape" class="horizontal">
+        <div>
+            <h3>Harmonic[0] shape</h3>
+            <form id="h0-shapes" class="vertical">
+                <label><input type="radio" value="sine" name="h0-shape" checked>Sine</label>
+                <label><input type="radio" value="square" name="h0-shape">Square</label>
+                <label><input type="radio" value="triangle" name="h0-shape">Triangle</label>
+                <label><input type="radio" value="sawtooth" name="h0-shape">Sawtooth</label>
+            </form>
+        </div>
+        <div>
+            <h3>Harmonic[1] shape</h3>
+            <form id="h1-shapes" class="vertical">
+                <label><input type="radio" value="sine" name="h1-shape">Sine</label>
+                <label><input type="radio" value="square" name="h1-shape">Square</label>
+                <label><input type="radio" value="triangle" name="h1-shape" checked>Triangle</label>
+                <label><input type="radio" value="sawtooth" name="h1-shape">Sawtooth</label>
+            </form>
+        </div>
+    </div>
+    <p><a href="charts.html" target="_blank">Theory chart</a>
+        <span class="todo">not written yet</span>
+    </p>
+    <p><a href="https://github.com/3isvogel/piano" target="_blank">Repository for this project</a></p>
+    <h2>Known problems</h2>
+    <ol>
+        <li>
+            <p> MacOS keyboard can't handle more keypresses on the same column,<br>
+                this make sense since normally you would have at maximum a finger per column,<br>
+                to replicate: strike a chord: ZCB, keys QET won't play any sound, but WRY plays normally<br>
+                I will call this the <span class="todo">Q(ui)ET WRY </span> problem
+            </p>
+        </li>
+    </ol>
 </body>
 
 </html>
