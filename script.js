@@ -8,91 +8,43 @@ let shift_toggle = false;
 let shift_state = false;
 let shift_prev_state = false;
 
-function oct(note, octaves) {
-    const mult = 2 ** octaves;
-    return note * mult;
-}
-
-const step_size = 2 ** (1 / 12)
-function stp(note, steps) {
-    return note * step_size ** steps;
-}
-
 // Tune the A4 and then tune the whole piano
 // on it shifting the available register up "BASE" octaves
-const A4 = 440;
-const BASE = 2;
+const A0 = 27.5;
+const A4 = oct(A0, 4);
 
-const A0 = oct(A4, -4);
-// this way the frequencies are define once, to raise/lower all the keys just change the base number
-const A = oct(A0, BASE);
-const As = stp(A, 1);
-const B = stp(A, 2);
-const C = stp(A, -9);
-const Cs = stp(A, -8);
-const D = stp(A, -7);
-const Ds = stp(A, -6);
-const E = stp(A, -5);
-const F = stp(A, -4);
-const Fs = stp(A, -3);
-const G = stp(A, -2);
-const Gs = stp(A, -1);
+// note: notes are repeted for ease of representaiton in the config file
+const notes = {
+    'A': A0,
+    'As': stp(A0, 1),
+    'B': stp(A0, 2),
+    'C': stp(A0, -9),
+    'Cs': stp(A0, -8),
+    'D': stp(A0, -7),
+    'Ds': stp(A0, -6),
+    'E': stp(A0, -5),
+    'F': stp(A0, -4),
+    'Fs': stp(A0, -3),
+    'G': stp(A0, -2),
+    'Gs': stp(A0, -1)
+}
+// semitones on the B and E
+notes['Bs'] = oct(notes['C'], 1);
+notes['Es'] = notes['F'];
+// flat name for all notes
+notes['Ab'] = notes['Gs'];
+notes['Bb'] = notes['As'];
+notes['Cb'] = oct(notes['B'], -1);
+notes['Db'] = notes['Cs'];
+notes['Eb'] = notes['Ds'];
+notes['Fb'] = notes['E'];
+notes['Gb'] = notes['As'];
 
-// Map of keys to frequencies
-// FIXME: Using toggle switch makes every key work regardless if they are latin or symbols,
-//        however some keys don't make any sound when shift key is pressed, since they send a different keycode
-
-// TODO: Provide different keymapping layout to choose from, and save them as separate files
-const keyFrequencyMap = {
-
-    // Lower scale: C tones
-    '`': oct(F, 0),
-    'z': oct(G, 0),
-    'x': oct(A, 0),
-    'c': oct(B, 0),
-    'v': oct(C, 1),
-    'b': oct(D, 1),
-    'n': oct(E, 1),
-    'm': oct(F, 1),
-    ',': oct(G, 1),
-    '.': oct(A, 1),
-    '/': oct(B, 1),
-
-    // Lower scale: C semitones
-    'a': oct(Fs, 0),
-    's': oct(Gs, 0),
-    'd': oct(As, 0),
-    'g': oct(Cs, 1),
-    'h': oct(Ds, 1),
-    'k': oct(Fs, 1),
-    'l': oct(Gs, 1),
-    ';': oct(As, 1),
-
-    // Higher scale: C tones
-    'q': oct(F, 1),
-    'w': oct(G, 1),
-    'e': oct(A, 1),
-    'r': oct(B, 1),
-    't': oct(C, 2),
-    'y': oct(D, 2),
-    'u': oct(E, 2),
-    'i': oct(F, 2),
-    'o': oct(G, 2),
-    'p': oct(A, 2),
-    '[': oct(B, 2),
-
-    // Higher scale: C semitones
-    '2': oct(Fs, 1),
-    '3': oct(Gs, 1),
-    '4': oct(As, 1),
-    '6': oct(Cs, 2),
-    '7': oct(Ds, 2),
-    '9': oct(Fs, 2),
-    '0': oct(Gs, 2),
-    '-': oct(As, 2),
-
-    '§': A4 // A4 standard tuning
-};
+let keyFrequencyMap = {};
+function updateKeyMap(l) {
+    keyFrequencyMap = selectKeyMap(l);
+}
+updateKeyMap('default');
 
 let keySoundMap = {
     '\\': "sounds/kick.ogg",
@@ -215,30 +167,3 @@ document.addEventListener('keyup', function (event) {
 
     if (activeSounds[key]) activeSounds[key] = null;
 });
-
-let clamp = ((x, m, M) => { return x < m ? m : x > M ? M : x })
-
-// Start harmonics
-let harmonics = 2;
-const MIN_HARMONICS = 1;
-const MAX_HARMONICS = 4;
-function setHarmonics(modify) {
-    harmonics += modify;
-    harmonics = clamp(harmonics, MIN_HARMONICS, MAX_HARMONICS);
-    let e = document.getElementById("oscillator-shape")
-    e.innerHTML = ""
-    for (let h = 0; h < harmonics; h++) {
-        oscillator_selector =
-            `<div id="h${h}-shape">
-            <h3>Harmonic[${h}] shape</h3>
-            <form id="h${h}-shapes" class="vertical">
-            <label><input type="radio" value="sine" name="h${h}-shape" checked>Sine</label>
-            <label><input type="radio" value="square" name="h${h}-shape">Square</label>
-            <label><input type="radio" value="triangle" name="h${h}-shape">Triangle</label>
-            <label><input type="radio" value="sawtooth" name="h${h}-shape">Sawtooth</label>
-            </form>
-        </div>`
-        e.innerHTML += oscillator_selector
-    }
-
-}

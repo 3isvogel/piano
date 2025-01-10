@@ -6,14 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
 
+    <!-- TODO: for now the config is statically generated and loaded, next step is to make it dynamic -->
+    <script src="keymaps.js"></script>
+    <script src="load-conf.js"></script>
     <script src="script.js"></script>
 
     <title>Mini keyboard</title>
 </head>
 
 <body>
+    <h1>The infos in the table are outdated: I am moving the keys around</h1>
+    <h2>Change key mapping</h2>
+    <select id="layoutsel" onchange="updateKeyMap()">
+    </select>
     <table>
-        <h1>The infos in the table are outdated: I am moving the keys around</h1>
         <thead>
             <tr class="info">
                 <th>Keys</th>
@@ -47,24 +53,7 @@
         <h2>harmonics</h2>
     </div>
     <div id="oscillator-shape" class="horizontal">
-        <div>
-            <h3>Harmonic[0] shape</h3>
-            <form id="h0-shapes" class="vertical">
-                <label><input type="radio" value="sine" name="h0-shape" checked>Sine</label>
-                <label><input type="radio" value="square" name="h0-shape">Square</label>
-                <label><input type="radio" value="triangle" name="h0-shape">Triangle</label>
-                <label><input type="radio" value="sawtooth" name="h0-shape">Sawtooth</label>
-            </form>
-        </div>
-        <div>
-            <h3>Harmonic[1] shape</h3>
-            <form id="h1-shapes" class="vertical">
-                <label><input type="radio" value="sine" name="h1-shape">Sine</label>
-                <label><input type="radio" value="square" name="h1-shape">Square</label>
-                <label><input type="radio" value="triangle" name="h1-shape" checked>Triangle</label>
-                <label><input type="radio" value="sawtooth" name="h1-shape">Sawtooth</label>
-            </form>
-        </div>
+    </div>
     </div>
     <p><a href="charts.html" target="_blank">Theory chart</a>
         <span class="todo">not written yet</span>
