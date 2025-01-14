@@ -101,12 +101,15 @@ if __name__ == '__main__':
     file_list = [file for file in os.listdir(directory) if file.endswith('.keys')]
     configs = {name.split('/')[-1][:-5]: loadConf(os.path.join(directory, name)) for name in file_list}
 
+    keys = list(configs.keys())
+    keys.sort()
+
     with open('keymaps.js', 'w') as file:
         file.writelines([
             '// This file was generated using "generate-keymaps.py"\n',
             '// Do not modify this fil directly, instead edit "config/keymaps/*.keys" to change layouts\n',
             '\n',
-            f'let availablLayouts={[[i, configs[i][0]] for i in configs.keys()]};\n',
+            f'let availablLayouts={[[i, configs[i][0]] for i in keys]};\n',
             'let keyboardLayouts={\n'])
         for layout, mapping in configs.items():
             mapping = mapping[1]
