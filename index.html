@@ -9,57 +9,77 @@
     <!-- TODO: for now the config is statically generated and loaded, next step is to make it dynamic -->
     <script src="keymaps.js"></script>
     <script src="load-conf.js"></script>
-    <script src="script.js"></script>
 
     <title>Mini keyboard</title>
 </head>
 
 <body>
-    <h1>The infos in the table are outdated: I am moving the keys around</h1>
-    <h2>Change key mapping</h2>
-    <select id="layoutsel" onchange="updateKeyMap()">
-    </select>
-    <table>
-        <thead>
-            <tr class="info">
-                <th>Keys</th>
-                <th>Commands</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="info">
-                <th>Upper 2 rows of the keyboard</th>
-                <th>High piano keyboard (F -> "q")</th>
-            </tr>
-            <tr class="info">
-                <th>Lower 2 rows of the keyboard</th>
-                <th>Low piano keyboard (F -> "`")</th>
-            </tr>
-            <tr class="info">
-                <th>S-J</th>
-                <th>Lower semitones</th>
-            </tr>
-            <tr class="info">
-                <th>"\", "]", "="</th>
-                <th>kick, snare, crash respectively</th>
-            </tr>
-        </tbody>
-    </table>
-    <h2>Register: <span id="shift-register" style="color:green;">↓ Low</span></h2>
+    <h2>📖 Default layout chart</h2>
     <div class="horizontal">
-        <h2>Oscillator shape:</h2>
-        <button type="button" label="-" name="harmonic-up" onclick="setHarmonics(-1)">-</button>
-        <button type="button" text="+" name=" harmonic-up" onclick="setHarmonics(+1)">+</button>
-        <h2>harmonics</h2>
+        <table>
+            <thead>
+                <tr class="info">
+                    <th>Keys</th>
+                    <th>Commands</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="info">
+                    <th>Upper 2 rows of the keyboard</th>
+                    <th>High piano keyboard (F -> "q")</th>
+                </tr>
+                <tr class="info">
+                    <th>Lower 2 rows of the keyboard</th>
+                    <th>Low piano keyboard (F -> "`")</th>
+                </tr>
+                <tr class="info">
+                    <th>S-J</th>
+                    <th>Lower semitones</th>
+                </tr>
+                <tr class="info">
+                    <th>"\", "]", "="</th>
+                    <th>kick, snare, crash respectively</th>
+                </tr>
+                <tr class="info">
+                    <th>Shift</th>
+                    <th>Change register</th>
+                </tr>
+            </tbody>
+        </table>
+        <div class="vertical">
+            <h2>🎼 Register:</h2>
+            <h2><span id="shift-register"></span></h2>
+        </div>
     </div>
-    <div id="oscillator-shape" class="horizontal">
+    <hr>
+    <hr>
+    <h1>⚙️ Settings</h1>
+    <h2>🎹 Key mapping</h2>
+    <select id="layoutsel" onchange="updateKeyMap()"></select>
+    <hr>
+    <h2>🔊 Volume control:</h2>
+    <div>
+        <div class="horizontal">
+            <input onchange="setVolume(this.value)" type="range" id="volume-slider" step="1">
+            <div id="volume"></div>
+        </div>
     </div>
+    <hr>
+    <h2>🎛️ Oscillator shape:</h2>
+    <div class="horizontal">
+        <div class="vertical">
+            <button type="button" text="+" name=" harmonic-up" onclick="setHarmonics(+1)">+</button>
+            <button type="button" label="-" name="harmonic-up" onclick="setHarmonics(-1)">-</button>
+        </div>
+        <div id="oscillator-shape" class="horizontal">
+        </div>
     </div>
+    <hr>
     <p><a href="charts.html" target="_blank">Theory chart</a>
         <span class="todo">not written yet</span>
     </p>
     <p><a href="https://github.com/3isvogel/piano" target="_blank">Repository for this project</a></p>
-    <h2>Known problems</h2>
+    <h2>❓ Known problems</h2>
     <ol>
         <li>
             <p> MacOS keyboard can't handle more keypresses on the same column,<br>
@@ -70,5 +90,6 @@
         </li>
     </ol>
 </body>
+<script src="script.js"></script>
 
 </html>

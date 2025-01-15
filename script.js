@@ -8,6 +8,8 @@ let shift_toggle = false;
 let shift_state = false;
 let shift_prev_state = false;
 
+let main_volume = 100;
+
 // Tune the A4 and then tune the whole piano
 // on it shifting the available register up "BASE" octaves
 const A0 = 27.5;
@@ -74,7 +76,7 @@ function playPianoKey(frequency) {
         harmonicOscillators[i].type = document.querySelector(`input[name="h${i}-shape"]:checked`).value;
         harmonicOscillators[i].frequency.setValueAtTime(oct(frequency, i), now);
         harmonicOscillators[i].connect(harmonicGains[i]);
-        harmonicGains[i].gain.setValueAtTime(1 / (2 ** i), now);
+        harmonicGains[i].gain.setValueAtTime(main_volume / 100.0 / (2 ** i), now);
         // cascadian connect to destination
         if (i == 0) {
             harmonicGains[i].connect(audioContext.destination);
@@ -108,6 +110,12 @@ function stopPianoKey(frequency) {
     }
 }
 
+function showShift() {
+    shift_register.innerText = shift_toggle ? "↑ High" : "↓ Low";
+    shift_register.style["color"] = shift_toggle ? "blue" : "green";
+}
+showShift();
+
 // Event listeners for key press
 document.addEventListener('keydown', function (event) {
     // prevent default actions from triggering (eg: "/" for quicksearch)
@@ -138,9 +146,7 @@ document.addEventListener('keydown', function (event) {
     shift_state = event.shiftKey;
     if (shift_state && !shift_prev_state) {
         shift_toggle = !shift_toggle;
-        const shift_register = document.getElementById("shift-register");
-        shift_register.innerText = shift_toggle ? "↑ High" : "↓ Low";
-        shift_register.style["color"] = shift_toggle ? "blue" : "green";
+        showShift(shift_toggle);
     } // well... toggle the toggle
     shift_prev_state = shift_state;
 
@@ -167,3 +173,23 @@ document.addEventListener('keyup', function (event) {
 
     if (activeSounds[key]) activeSounds[key] = null;
 });
+
+// Volume control
+
+const volume_slider = document.getElementById('volume-slider');
+const volume = document.getElementById('volume');
+const MIN_VOLUME = 0;
+const MAX_VOLUME = 120;
+
+function setMinMaxVolume(min, max) {
+    volume_slider.min = min;
+    volume_slider.max = max;
+}
+
+setMinMaxVolume(MIN_VOLUME, MAX_VOLUME);
+setVolume(100);
+
+function setVolume(val) {
+    main_volume = clamp(val, MIN_VOLUME, MAX_VOLUME);
+    volume.innerText = main_volume;
+}

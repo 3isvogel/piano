@@ -53,6 +53,8 @@ document.onreadystatechange = function () {
     if (document.readyState == "complete") {
         initLayoutSelect();
         setHarmonics(2);
+        // set default shape
+        document.getElementsByName('h1-shape')[2].checked = true;
     }
 }
 

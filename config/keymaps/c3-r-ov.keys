@@ -1,4 +1,4 @@
-C3 root with overlap
+C3 Root with overlap
 ` nC- o3
 z nD- o3
 x nE- o3
@@ -31,13 +31,12 @@ o nD- o5
 p nE- o5
 [ nF- o5
 
-2 nF- o4
-3 nCs o4
-4 nDs o4
-6 nFs o4
-7 nGs o4
-9 nAs o4
-0 nCs o5
-- nDs o5
+2 nCs o4
+3 nDs o4
+5 nFs o4
+6 nGs o4
+7 nAs o4
+9 nCs o5
+0 nDs o5
 
 § f440.0
