@@ -87,5 +87,6 @@ function selectKeyMap(layout = '') {
     }
     if (!layout in keyboardLayouts)
         alert("error selecting the layout")
+    document.getElementById('layout-desc').innerText = layoutDescription[layout];
     return loadKeyMap(keyboardLayouts[layout])
 }

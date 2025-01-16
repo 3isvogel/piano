@@ -78,14 +78,15 @@ def loadConf(name):
     global current_file
     current_file = name
     maps = {}
-    first = True
     conf_name = ""
+    conf_description = ""
     with open(name) as file:
         for line in file:
             line_num+=1;
-            if first:
+            if line_num == 1:
                 conf_name = line[:-1]
-                first = False
+            elif line_num == 2:
+                conf_description = line[:-1]
             else:
                 if (line == '\n' or line == ''):
                     continue
@@ -93,7 +94,7 @@ def loadConf(name):
                     ERROR("Unexpected line length")
                 key, val = makeEntry(line)
                 maps[key] = val
-    return conf_name, maps
+    return conf_name, maps, conf_description
 
 if __name__ == '__main__':
     if len(sys.argv) < 2: sys.exit('specify directory with keymap configs')
@@ -109,8 +110,13 @@ if __name__ == '__main__':
             '// This file was generated using "generate-keymaps.py"\n',
             '// Do not modify this fil directly, instead edit "config/keymaps/*.keys" to change layouts\n',
             '\n',
-            f'let availablLayouts={[[i, configs[i][0]] for i in keys]};\n',
-            'let keyboardLayouts={\n'])
+            f'let availablLayouts={[[i, configs[i][0]] for i in keys]};\n'])
+        file.write('let layoutDescription={\n')
+        for layout, description in configs.items():
+            description = description[2]
+            file.write(f"'{layout}': '{description}',\n")
+        file.write('};\n')
+        file.write('let keyboardLayouts={\n')
         for layout, mapping in configs.items():
             mapping = mapping[1]
             file.write(f'"{layout}":[')

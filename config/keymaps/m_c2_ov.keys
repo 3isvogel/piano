@@ -1,4 +1,6 @@
-C2 4 scales with overlap
+Matrix C, overlap
+Matrix of keys in the scale of C, aligning all C notes on the left of the keyboard
+
 ` nC- o2
 z nD- o2
 x nE- o2
